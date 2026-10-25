@@ -3,12 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Google</title>
+<title>لوحة بيانات الاختبار</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -67,9 +65,7 @@ th, td {
   overflow-wrap: anywhere;
 }
 
-th {
-  color: #d4af37;
-}
+th { color: #d4af37; }
 
 .empty {
   color: #aaa;
@@ -80,4 +76,80 @@ th {
   color: #999;
   font-size: 13px;
   line-height: 1.8;
-  margin
+  margin-top: 25px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>لوحة بيانات الاختبار</h1>
+
+  <p class="subtitle">
+    لوحة مستقلة لمراجعة بيانات الاختبار المحفوظة على هذا الجهاز.
+  </p>
+
+  <div class="status">
+    البيانات المعروضة محلية على هذا الجهاز فقط.
+  </div>
+
+  <button onclick="loadData()">تحديث البيانات</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>البريد الإلكتروني التجريبي</th>
+        <th>حالة التسجيل</th>
+      </tr>
+    </thead>
+    <tbody id="records"></tbody>
+  </table>
+
+  <p class="empty" id="empty">
+    لا توجد بيانات اختبار محفوظة حتى الآن.
+  </p>
+
+  <p class="note">
+    هذه اللوحة لا تتصل بخادم ولا تستقبل بيانات من أجهزة أخرى.
+    استخدم بيانات تجريبية فقط.
+  </p>
+</div>
+
+<script>
+function loadData() {
+  const records = document.getElementById("records");
+  const empty = document.getElementById("empty");
+
+  records.replaceChildren();
+
+  let saved = [];
+
+  try {
+    saved = JSON.parse(
+      localStorage.getItem("mailTestRecords") || "[]"
+    );
+
+    if (!Array.isArray(saved)) saved = [];
+  } catch (error) {
+    saved = [];
+  }
+
+  saved.forEach(item => {
+    const row = document.createElement("tr");
+    const email = document.createElement("td");
+    const status = document.createElement("td");
+
+    email.textContent = item.email || "";
+    status.textContent = item.status || "اختبار";
+
+    row.append(email, status);
+    records.appendChild(row);
+  });
+
+  empty.style.display = saved.length ? "none" : "block";
+}
+
+loadData();
+</script>
+</body>
+</html>

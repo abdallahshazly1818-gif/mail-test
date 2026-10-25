@@ -3,153 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة بيانات الاختبار</title>
+<title>Mail Test</title>
 
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   padding: 20px;
   background: #080808;
-  color: #fff;
+  color: white;
   font-family: Arial, sans-serif;
 }
 
 .container {
-  max-width: 700px;
+  max-width: 450px;
   margin: 40px auto;
   background: #151515;
-  border: 1px solid #292929;
+  border: 1px solid #d4af37;
   border-radius: 16px;
   padding: 24px;
 }
 
 h1 {
   color: #d4af37;
-  font-size: 24px;
+  text-align: center;
 }
 
-.subtitle {
-  color: #aaa;
+p {
+  color: #bbb;
   line-height: 1.8;
 }
 
-.status {
-  background: #202020;
-  padding: 15px;
+label {
+  display: block;
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #444;
   border-radius: 8px;
-  margin: 20px 0;
+  background: #080808;
+  color: white;
+  font-size: 16px;
 }
 
 button {
+  width: 100%;
+  margin-top: 22px;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
   background: #d4af37;
   color: #080808;
-  border: 0;
-  padding: 12px 18px;
-  border-radius: 8px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
 }
 
-table {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
-}
-
-th, td {
-  border-bottom: 1px solid #333;
-  padding: 12px 8px;
-  text-align: right;
-  overflow-wrap: anywhere;
-}
-
-th { color: #d4af37; }
-
-.empty {
-  color: #aaa;
-  padding: 20px 0;
-}
-
-.note {
-  color: #999;
-  font-size: 13px;
-  line-height: 1.8;
-  margin-top: 25px;
+#message {
+  margin-top: 18px;
+  text-align: center;
 }
 </style>
 </head>
 
 <body>
 <div class="container">
-  <h1>لوحة بيانات الاختبار</h1>
 
-  <p class="subtitle">
-    لوحة مستقلة لمراجعة بيانات الاختبار المحفوظة على هذا الجهاز.
-  </p>
+  <h1>Mail Test</h1>
 
-  <div class="status">
-    البيانات المعروضة محلية على هذا الجهاز فقط.
-  </div>
+  <p>صفحة تسجيل تجريبية لاختبار النموذج.</p>
 
-  <button onclick="loadData()">تحديث البيانات</button>
+  <form id="testForm">
 
-  <table>
-    <thead>
-      <tr>
-        <th>البريد الإلكتروني التجريبي</th>
-        <th>حالة التسجيل</th>
-      </tr>
-    </thead>
-    <tbody id="records"></tbody>
-  </table>
+    <label for="username">اسم المستخدم</label>
+    <input
+      id="username"
+      type="text"
+      placeholder="اكتب اسمًا تجريبيًا"
+      required
+    >
 
-  <p class="empty" id="empty">
-    لا توجد بيانات اختبار محفوظة حتى الآن.
-  </p>
+    <label for="email">البريد الإلكتروني التجريبي</label>
+    <input
+      id="email"
+      type="email"
+      placeholder="example@test.com"
+      required
+    >
 
-  <p class="note">
-    هذه اللوحة لا تتصل بخادم ولا تستقبل بيانات من أجهزة أخرى.
-    استخدم بيانات تجريبية فقط.
-  </p>
+    <button type="submit">تسجيل تجريبي</button>
+
+  </form>
+
+  <p id="message" role="status"></p>
+
 </div>
 
 <script>
-function loadData() {
-  const records = document.getElementById("records");
-  const empty = document.getElementById("empty");
+document.getElementById("testForm").addEventListener("submit", function(event) {
+  event.preventDefault();
 
-  records.replaceChildren();
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
 
-  let saved = [];
+  document.getElementById("message").textContent =
+    "تم الاختبار بنجاح يا " + username +
+    ". البريد التجريبي: " + email;
 
-  try {
-    saved = JSON.parse(
-      localStorage.getItem("mailTestRecords") || "[]"
-    );
-
-    if (!Array.isArray(saved)) saved = [];
-  } catch (error) {
-    saved = [];
-  }
-
-  saved.forEach(item => {
-    const row = document.createElement("tr");
-    const email = document.createElement("td");
-    const status = document.createElement("td");
-
-    email.textContent = item.email || "";
-    status.textContent = item.status || "اختبار";
-
-    row.append(email, status);
-    records.appendChild(row);
-  });
-
-  empty.style.display = saved.length ? "none" : "block";
-}
-
-loadData();
+  this.reset();
+});
 </script>
+
 </body>
 </html>

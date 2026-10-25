@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Google/title>
+<title>Google</title>
 
 <style>
 * {
@@ -80,76 +80,4 @@ th {
   color: #999;
   font-size: 13px;
   line-height: 1.8;
-  margin-top: 25px;
-}
-</style>
-</head>
-
-<body>
-<div class="container">
-
-  <h1>Gmail</h1>
-
-  <p class="subtitle">
-    لوحة مستقلة لمراجعة بيانات الاختبار المحفوظة على هذا الجهاز.
-  </p>
-
-  <div class="status" id="status">
-    البيانات المعروضة محلية على هذا الجهاز فقط.
-  </div>
-
-  <button onclick="loadData()">تحديث البيانات</button>
-
-  <table>
-    <thead>
-      <tr>
-        <th>البريد الإلكتروني</th>
-        <th>حالة التسجيل</th>
-      </tr>
-    </thead>
-    <tbody id="records"></tbody>
-  </table>
-
-  <p class="empty" id="empty">
-    لا توجد بيانات اختبار محفوظة حتى الآن.
-  </p>
-
-  <p class="note">
-    هذه اللوحة لا تتصل بخادم ولا تستقبل بيانات من أجهزة أخرى.
-    ادخل كلمه المرور حقيقية أو بيانات حسابات شخصية.
-  </p>
-
-</div>
-
-<script>
-function loadData() {
-  const records = document.getElementById("records");
-  const empty = document.getElementById("empty");
-
-  records.replaceChildren();
-
-  // عرض بيانات الاختبار المحفوظة محليًا إن وجدت.
-  const saved = JSON.parse(
-    localStorage.getItem("mailTestRecords") || "[]"
-  );
-
-  saved.forEach(item => {
-    const row = document.createElement("tr");
-    const email = document.createElement("td");
-    const status = document.createElement("td");
-
-    email.textContent = item.email || "";
-    status.textContent = item.status || "Gmail";
-
-    row.append(email, status);
-    records.appendChild(row);
-  });
-
-  empty.style.display = saved.length ? "none" : "block";
-}
-
-loadData();
-</script>
-
-</body>
-</html>
+  margin

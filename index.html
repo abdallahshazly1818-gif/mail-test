@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mail Test</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f5f7fa;
+  font-family:Arial,sans-serif;
+  color:#202124;
+  padding:20px;
+}
+.card{
+  background:white;
+  width:100%;
+  max-width:390px;
+  padding:32px;
+  border:1px solid #dadce0;
+  border-radius:12px;
+  text-align:center;
+}
+.logo{
+  font-size:28px;
+  font-weight:bold;
+  color:#34495e;
+  margin-bottom:12px;
+}
+.badge{
+  display:inline-block;
+  background:#e8f0fe;
+  color:#174ea6;
+  padding:7px 12px;
+  border-radius:20px;
+  font-size:12px;
+  margin-bottom:18px;
+}
+h1{font-size:23px;font-weight:400;margin:8px 0}
+p{font-size:14px;color:#5f6368;line-height:1.7}
+input{
+  display:block;
+  width:100%;
+  padding:13px;
+  margin:16px 0;
+  border:1px solid #dadce0;
+  border-radius:5px;
+  font-size:15px;
+  direction:ltr;
+  text-align:left;
+}
+button{
+  width:100%;
+  padding:12px;
+  background:#1a73e8;
+  color:white;
+  border:0;
+  border-radius:5px;
+  font-size:15px;
+  cursor:pointer;
+}
+.note{font-size:12px;margin-top:20px}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="logo">Mail Test</div>
+  <div class="badge">نموذج تجريبي مستقل — ليس تابعًا لـ Google</div>
+  <h1>تجربة التسجيل</h1>
+  <p>استخدم بيانات اختبار غير حقيقية لتجربة النموذج.</p>
+
+  <form id="testForm">
+    <input
+      type="email"
+      id="email"
+      placeholder="بريد تجريبي"
+      autocomplete="off"
+      required
+    >
+    <input
+      type="text"
+      id="testCode"
+      placeholder="رمز اختبار غير سري"
+      autocomplete="off"
+      required
+    >
+    <button type="submit">إرسال بيانات الاختبار</button>
+  </form>
+
+  <p id="result" role="status"></p>
+  <div class="note">
+    لا تدخل كلمات مرور حقيقية أو بيانات حسابات شخصية.
+  </div>
+</main>
+
+<script>
+document.getElementById("testForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const email=document.getElementById("email").value.trim();
+  const result=document.getElementById("result");
+
+  result.textContent="تم التحقق من النموذج محليًا. لم تُرسل أي بيانات إلى خادم.";
+  result.style.color="#188038";
+
+  console.log("بيانات الاختبار:",{email:email});
+});
+</script>
+</body>
+</html>

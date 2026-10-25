@@ -3,113 +3,153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mail Test</title>
+<title>Google/title>
+
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f5f7fa;
-  font-family:Arial,sans-serif;
-  color:#202124;
-  padding:20px;
+* {
+  box-sizing: border-box;
 }
-.card{
-  background:white;
-  width:100%;
-  max-width:390px;
-  padding:32px;
-  border:1px solid #dadce0;
-  border-radius:12px;
-  text-align:center;
+
+body {
+  margin: 0;
+  padding: 20px;
+  background: #080808;
+  color: #fff;
+  font-family: Arial, sans-serif;
 }
-.logo{
-  font-size:28px;
-  font-weight:bold;
-  color:#34495e;
-  margin-bottom:12px;
+
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #151515;
+  border: 1px solid #292929;
+  border-radius: 16px;
+  padding: 24px;
 }
-.badge{
-  display:inline-block;
-  background:#e8f0fe;
-  color:#174ea6;
-  padding:7px 12px;
-  border-radius:20px;
-  font-size:12px;
-  margin-bottom:18px;
+
+h1 {
+  color: #d4af37;
+  font-size: 24px;
 }
-h1{font-size:23px;font-weight:400;margin:8px 0}
-p{font-size:14px;color:#5f6368;line-height:1.7}
-input{
-  display:block;
-  width:100%;
-  padding:13px;
-  margin:16px 0;
-  border:1px solid #dadce0;
-  border-radius:5px;
-  font-size:15px;
-  direction:ltr;
-  text-align:left;
+
+.subtitle {
+  color: #aaa;
+  line-height: 1.8;
 }
-button{
-  width:100%;
-  padding:12px;
-  background:#1a73e8;
-  color:white;
-  border:0;
-  border-radius:5px;
-  font-size:15px;
-  cursor:pointer;
+
+.status {
+  background: #202020;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
 }
-.note{font-size:12px;margin-top:20px}
+
+button {
+  background: #d4af37;
+  color: #080808;
+  border: 0;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  border-bottom: 1px solid #333;
+  padding: 12px 8px;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+th {
+  color: #d4af37;
+}
+
+.empty {
+  color: #aaa;
+  padding: 20px 0;
+}
+
+.note {
+  color: #999;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 25px;
+}
 </style>
 </head>
+
 <body>
-<main class="card">
-  <div class="logo">Mail Test</div>
-  <div class="badge">نموذج تجريبي مستقل — ليس تابعًا لـ Google</div>
-  <h1>تجربة التسجيل</h1>
-  <p>استخدم بيانات اختبار غير حقيقية لتجربة النموذج.</p>
+<div class="container">
 
-  <form id="testForm">
-    <input
-      type="email"
-      id="email"
-      placeholder="بريد تجريبي"
-      autocomplete="off"
-      required
-    >
-    <input
-      type="text"
-      id="testCode"
-      placeholder="رمز اختبار غير سري"
-      autocomplete="off"
-      required
-    >
-    <button type="submit">إرسال بيانات الاختبار</button>
-  </form>
+  <h1>Gmail</h1>
 
-  <p id="result" role="status"></p>
-  <div class="note">
-    لا تدخل كلمات مرور حقيقية أو بيانات حسابات شخصية.
+  <p class="subtitle">
+    لوحة مستقلة لمراجعة بيانات الاختبار المحفوظة على هذا الجهاز.
+  </p>
+
+  <div class="status" id="status">
+    البيانات المعروضة محلية على هذا الجهاز فقط.
   </div>
-</main>
+
+  <button onclick="loadData()">تحديث البيانات</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>البريد الإلكتروني</th>
+        <th>حالة التسجيل</th>
+      </tr>
+    </thead>
+    <tbody id="records"></tbody>
+  </table>
+
+  <p class="empty" id="empty">
+    لا توجد بيانات اختبار محفوظة حتى الآن.
+  </p>
+
+  <p class="note">
+    هذه اللوحة لا تتصل بخادم ولا تستقبل بيانات من أجهزة أخرى.
+    ادخل كلمه المرور حقيقية أو بيانات حسابات شخصية.
+  </p>
+
+</div>
 
 <script>
-document.getElementById("testForm").addEventListener("submit",function(e){
-  e.preventDefault();
+function loadData() {
+  const records = document.getElementById("records");
+  const empty = document.getElementById("empty");
 
-  const email=document.getElementById("email").value.trim();
-  const result=document.getElementById("result");
+  records.replaceChildren();
 
-  result.textContent="تم التحقق من النموذج محليًا. لم تُرسل أي بيانات إلى خادم.";
-  result.style.color="#188038";
+  // عرض بيانات الاختبار المحفوظة محليًا إن وجدت.
+  const saved = JSON.parse(
+    localStorage.getItem("mailTestRecords") || "[]"
+  );
 
-  console.log("بيانات الاختبار:",{email:email});
-});
+  saved.forEach(item => {
+    const row = document.createElement("tr");
+    const email = document.createElement("td");
+    const status = document.createElement("td");
+
+    email.textContent = item.email || "";
+    status.textContent = item.status || "Gmail";
+
+    row.append(email, status);
+    records.appendChild(row);
+  });
+
+  empty.style.display = saved.length ? "none" : "block";
+}
+
+loadData();
 </script>
+
 </body>
 </html>
